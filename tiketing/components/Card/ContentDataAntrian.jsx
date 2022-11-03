@@ -149,7 +149,7 @@ const ContentDataAntrian = () => {
             <FormControl id="tujuan" isRequired mb={2}>
               <FormLabel>Kategori</FormLabel>
               <Select placeholder="Pilih Kategori">
-                <option value="option1">
+                <option value="option1" selected>
                   IT Software Developer & Programmer
                 </option>
                 <option value="option2">IT Support & Hardware</option>
@@ -159,8 +159,18 @@ const ContentDataAntrian = () => {
 
             <FormControl id="subject" isRequired mb={2}>
               <FormLabel>Subject</FormLabel>
-              <Input type="text" mb={2} placeholder="Subject" />
-              <Textarea placeholder="Jelaskan Kebutuhan Anda!" />
+              <Input
+                type="text"
+                mb={2}
+                placeholder="Subject"
+                value={"It Software Development & Programmer"}
+              />
+              <Textarea
+                placeholder="Jelaskan Kebutuhan Anda!"
+                value={
+                  "Pembuatan aplikasi absensi untuk bagian pemasaran dan proyek"
+                }
+              />
             </FormControl>
             <FormControl id="attach" isRequired>
               <FormLabel>Attachment</FormLabel>
@@ -168,6 +178,7 @@ const ContentDataAntrian = () => {
                 <Input
                   type={"text"}
                   placeholder="Belum ada file yang terpilih"
+                  value={"proposal_pengajuan_app.pdf"}
                   id="fileUpload"
                   isReadOnly
                 />
@@ -192,11 +203,11 @@ const ContentDataAntrian = () => {
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Batal
+              Kembali
             </Button>
-            <Button variant="ghost" colorScheme="cyan">
+            {/* <Button variant="ghost" colorScheme="cyan">
               Ubah Data
-            </Button>
+            </Button> */}
           </ModalFooter>
         </ModalContent>
       </Modal>
