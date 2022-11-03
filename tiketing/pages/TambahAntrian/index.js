@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "../../layouts/sidebar/Sidebar";
-import ContentDataAntrian from "../../components/Card/ContentDataAntrian";
+import ContentTambahAntrian from "../../components/Card/ContentTambahAntrian";
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import { Box } from "@chakra-ui/react";
@@ -16,7 +16,7 @@ const index = () => {
 
       <Box>
         <Sidebar>
-          <ContentDataAntrian />
+          <ContentTambahAntrian />
         </Sidebar>
       </Box>
     </div>

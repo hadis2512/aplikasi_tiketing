@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { React, useState, useEffect } from "react";
 import {
   IconButton,
   Avatar,
@@ -36,17 +36,28 @@ import {
   FiBell,
   FiList,
   FiChevronDown,
+  FiPlusCircle,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { useRouter } from "next/router";
 
 const LinkItems = [
-  { name: "Home", icon: FiHome, href: "Dashboard" },
-  { name: "Data Antrian", icon: FiList, href: "DataAntrian" },
+  { name: "Home", icon: FiHome, href: "/Dashboard" },
+  { name: "Tambah Antrian", icon: FiPlusCircle, href: "/TambahAntrian" },
+  { name: "Data Antrian", icon: FiList, href: "/DataAntrian" },
 ];
 
 export default function SidebarWithHeader({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [render, setRender] = useState(false);
+
+  useEffect(() => {
+    setRender(true);
+  }, []);
+  if (!render) {
+    return;
+  }
+
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent
@@ -142,16 +153,18 @@ const NavItem = ({ icon, children, href, ...rest }) => {
 const MobileNav = ({ onOpen, ...rest }) => {
   const router = useRouter();
   const toast = useToast();
+  const myData = sessionStorage.getItem("email");
   const logout = (e, path) => {
     e.prevenDefault;
     toast({
       title: "Logout Berhasil.",
-      description: "Sampai Berjumpa Kembali!.",
+      description: `Sampai Berjumpa Kembali ${myData}!.`,
       status: "success",
       position: "top",
       duration: 3000,
       isClosable: true,
     });
+    sessionStorage.clear();
     router.push(path);
   };
   return (
@@ -180,16 +193,13 @@ const MobileNav = ({ onOpen, ...rest }) => {
         fontFamily="monospace"
         fontWeight="bold"
       >
-        Logo
+        <Image boxSize="40px" src="/logos.png" alt="Dan Abramov" mr={"3"} />
+        <Text fontSize="md" fontFamily="monospace" fontWeight="bold">
+          Ticketing App
+        </Text>
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-        />
         <Flex alignItems={"center"}>
           <Menu>
             <MenuButton
@@ -205,9 +215,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">Hadits</Text>
+                  <Text fontSize="sm">{myData}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                    User
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
@@ -219,11 +229,11 @@ const MobileNav = ({ onOpen, ...rest }) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem>Profile</MenuItem>
+              {/* <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
-              <MenuDivider />
-              <MenuItem>
+              <MenuDivider /> */}
+              <MenuItem display={"flex"} justifyContent="center">
                 <Button
                   leftIcon={<FiLogOut />}
                   onClick={(e) => logout(e, "/")}

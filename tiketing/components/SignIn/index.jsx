@@ -21,25 +21,28 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function SplitScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forgetEmail, setForgetEmail] = useState("");
+
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
   const handleForget = (e) => setForgetEmail(e.target.value);
-  const isError = email === "";
-  const isError1 = password === "";
+
+  const emailKosong = email === "";
+  const passwordKosong = password === "";
   const isError2 = forgetEmail === "";
   const router = useRouter();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleClick = (e, path) => {
+  const handleClickLogin = (e, login) => {
     e.prevenDefault;
     {
-      isError
+      emailKosong
         ? toast({
             title: "Login Gagal.",
             description: "Silahkan Isi Email anda!.",
@@ -47,7 +50,7 @@ export default function SplitScreen() {
             duration: 3000,
             isClosable: true,
           })
-        : isError1
+        : passwordKosong
         ? toast({
             title: "Login Gagal.",
             description: "Silahkan Isi Password anda!.",
@@ -55,20 +58,22 @@ export default function SplitScreen() {
             duration: 3000,
             isClosable: true,
           })
-        : toast({
-            title: "Login Berhasil.",
-            description: `Halo, Selamat Datang ` + { email } + `!.`,
-            status: "Success",
-            duration: 3000,
-            isClosable: true,
-            onCloseCompleted: (e) => {
-              router.push(path);
-            },
+        : Swal.fire({
+            title: "Login Berhasil!",
+            text: `Halo, Selamat Datang ${email}`,
+            icon: "success",
+            showConfirmButton: false,
+            timer: 3000,
+          }).then(() => {
+            sessionStorage.setItem("email", email);
+            router.push(login);
           });
     }
   };
+
   const handleClickForget = (e) => {
     e.preventDefault;
+
     {
       isError2
         ? toast({
@@ -80,13 +85,14 @@ export default function SplitScreen() {
             isClosable: true,
           })
         : toast({
-            title: "Email telah terkirim.",
-            description: "Silahkan cek email anda untuk merubah password!.",
+            title: "Berhasil terkirim.",
+            description: `Silahkan cek email ${forgetEmail} untuk merubah password!.`,
             position: "top",
             status: "success",
             duration: 3000,
             isClosable: true,
           });
+      onClose();
     }
   };
 
@@ -122,14 +128,14 @@ export default function SplitScreen() {
               justify={"space-between"}
             >
               <Checkbox>Remember me</Checkbox>
-              <Button colorScheme={"blue"} variant={"ghost"} onClick={onOpen}>
-                Forgot Password?
+              <Button colorScheme="blue" variant={"ghost"} onClick={onOpen}>
+                Lupa Password?
               </Button>
             </Stack>
             <Button
-              colorScheme="teal"
-              variant={"outline"}
-              onClick={(e) => handleClick(e, "../Dashboard/")}
+              colorScheme="telegram"
+              variant={"solid"}
+              onClick={(e) => handleClickLogin(e, "/Dashboard")}
             >
               Sign in
             </Button>
@@ -161,17 +167,12 @@ export default function SplitScreen() {
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              colorScheme={"red"}
-              variant={"outline"}
-              mr={3}
-              onClick={onClose}
-            >
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
               Batal
             </Button>
             <Button
-              variant="solid"
-              colorScheme={"teal"}
+              variant="ghost"
+              colorScheme="cyan"
               onClick={(e) => handleClickForget(e)}
             >
               Kirim

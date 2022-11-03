@@ -1,27 +1,30 @@
 import React from "react";
 import { Container, Box, Text, Image, VStack, Grid } from "@chakra-ui/react";
-import {} from "@chakra-ui/icon";
 
 const CardContent = () => {
+  const myData = sessionStorage.getItem("email");
   return (
-    <Grid>
+    <Grid maxW={"100%"}>
       <Box
-        w="75%"
+        w={"100%"}
         h="150px"
         boxShadow={"xl"}
         rounded={"md"}
         bg="whiteAlpha.300"
-        p={4}
+        // p={[2, 2]}
         display={"flex"}
         alignItems="center"
-        justifyContent={"space-evenly"}
+        justifyContent={["space-evenly", "space-around"]}
       >
-        <Text fontSize={"4xl"} as="b">
-          Halo Selamat Datang Hadits
-        </Text>
+        <Box>
+          <Text fontSize={["md", "lg", "3xl"]}>Halo Selamat Datang,</Text>
+          <Text fontSize={["lg", "xl", "4xl"]} as="b">
+            {myData}
+          </Text>
+        </Box>
         <Image
-          boxSize="100px"
-          objectFit="cover"
+          boxSize={["100px", "150px"]}
+          objectFit="contain"
           src="/welcome.svg"
           alt="Dan Abramov"
         />
